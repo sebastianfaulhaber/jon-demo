@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<plugin name="HelloWorldCustomJmx"
+        displayName="HelloWorld Custom JMX Plugin"
+        version="1.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="urn:xmlns:rhq-plugin"
+        xmlns:c="urn:xmlns:rhq-configuration">
+
+  <depends plugin="JBossAS7" useClasses="true"/>
+
+  <service name="Myapp Services"
+           discovery="org.rhq.modules.plugins.jbossas7.jmx.ApplicationMBeansDiscoveryComponent"
+           class="org.rhq.modules.plugins.jbossas7.jmx.ApplicationMBeansComponent"
+           description="Container for Myapp Services"
+           singleton="true">
+
+    <runs-inside>
+      <parent-resource-type name="JBossAS7 Standalone Server" plugin="JBossAS7"/>
+      <parent-resource-type name="Managed Server" plugin="JBossAS7"/>
+    </runs-inside>
+
+    <plugin-configuration>
+      <c:simple-property name="beansQueryString" readOnly="true" default="quickstarts:type=*"/>
+      <c:simple-property name="newResourceKey" readOnly="true" default="myappServices"/>
+      <c:simple-property name="newResourceName" readOnly="true" default="Myapp Services"/>
+      <c:simple-property name="newResourceDescription" readOnly="true" default="Container for Myapp Services"/>
+    </plugin-configuration>
+
+    <service name="HelloWorldService" discovery="org.rhq.plugins.jmx.MBeanResourceDiscoveryComponent"
+             class="org.rhq.plugins.jmx.MBeanResourceComponent" singleton="true">
+
+      <plugin-configuration>
+        <c:simple-property name="objectName" default="quickstarts:type=AnnotatedComponentHelloWorld" readOnly="true"/>
+      </plugin-configuration>
+
+
+      <operation name="sayHello"
+                 displayName="Say hello!"
+                 description="Says hello and increases the 'count' attribute of this MBean.">
+         <parameters>
+            <c:simple-property name="p0" type="string" required="true"/>
+         </parameters>
+         <results>
+            <c:simple-property name="operationResult" type="string"/>
+         </results>
+      </operation>
+
+      <metric property="Count"
+              displayName="Usage count"
+              defaultOn="true"
+              displayType="summary"
+              defaultInterval="30000"
+              description="Counts the usage of this service"/>
+
+       <metric property="WelcomeMessage"
+              displayName="Welcome message for HelloWorld MBean."
+              defaultOn="true" 
+              dataType="trait"/>
+
+    </service>
+
+  </service>
+
+</plugin>

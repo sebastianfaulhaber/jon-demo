@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<project name="jboss-eap-deployment-bundle" default="main" xmlns:rhq="antlib:org.rhq.bundle">
+
+  <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
+  <rhq:bundle name="jboss-eap-v6-base-bundle" version="1.0" description="JBoss EAP V6 Base Bundle">
+
+    <rhq:input-property
+      name="jboss.bind.address"
+      description="The IP to which the Standalone server would be bound"
+      required="true"
+      defaultValue="${jboss.bind.address}"
+      type="string" />
+
+    <rhq:input-property
+      name="jboss.bind.address.management"
+      description="The IP to which the management feature would be bound"
+      required="true"
+      defaultValue="${jboss.bind.address.management}"
+      type="string"/>
+
+    <rhq:input-property
+      name="host.config"
+      description="The default profile to use when starting the server in Standalone mode"
+      required="true"
+      defaultValue="standalone-full-ha.xml"
+      type="string"/>
+
+    <rhq:deployment-unit name="jboss-eap" preinstallTarget="preinstall" postinstallTarget="postinstall" manageRootDir="false">
+      <rhq:file name="mgmt-users.properties" destinationFile="jboss-eap-6.3/standalone/configuration/mgmt-users.properties" replace="true" />
+      <rhq:archive name="jboss-eap-6.3.0.zip" exploded="true">
+        <rhq:replace>
+          <rhq:fileset>
+            <include name="**/*.properties" />
+          </rhq:fileset>
+        </rhq:replace>
+      </rhq:archive>
+    </rhq:deployment-unit>
+  </rhq:bundle>
+
+  <target name="preinstall">
+    <echo>Deploying the JBoss EAP bundle to ${rhq.deploy.dir} ...</echo>
+    <property name="preinstallTargetExecuted" value="true" />
+    <rhq:audit status="SUCCESS" action="Preinstall Notice" info="Preinstalling to ${rhq.deploy.dir}" message="Optional message">
+      Additional, optional details regarding the deployment of ${rhq.deploy.dir}
+    </rhq:audit>
+  </target>
+
+  <target name="postinstall">
+    <chmod perm="ugoa+rwx">
+      <fileset dir="${rhq.deploy.dir}">
+          <include name="**/*"/>
+      </fileset>
+    </chmod>
+    <osfamily property="os.family"/>
+    <if>
+      <equals arg1="${os.family}" arg2="windows" />
+      <then>
+        <echo>Starting up the service in Windows</echo>
+        <exec dir="${rhq.deploy.dir}/jboss-eap-6.3/bin" executable="cmd" spawn="true">
+          <arg line="/c standalone.bat"/>
+        </exec>
+      </then>
+      <elseif>
+        <equals arg1="${os.family}" arg2="unix" />
+        <then>
+          <echo>Starting up the service in Windows</echo>
+          <exec dir="${rhq.deploy.dir}/jboss-eap-6.3/bin" executable="sh" spawn="true">
+            <arg line="standalone.sh"/>
+          </exec>
+        </then>
+      </elseif>
+      <else>
+        <echo message="Not sure what the operating system is, quitting auto start" />
+      </else>
+    </if>
+  </target>
+
+  <target name="main" />
+</project>
