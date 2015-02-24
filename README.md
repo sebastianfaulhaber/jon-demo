@@ -52,6 +52,8 @@ C. Use Case - Automated provisioning of resources
 -----------
 This use case describes how to create a standardised JBoss Enterprise Application Platform (EAP) installation package. In terms of JON this is a so called "Bundle". This Bundle can then be provisioned to a target system (or even multiple) in a highly automated fashion.
 
+More information on the provisioning features can be found in the official JON documentation: https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Operations_Network/3.3/html/Users_Guide/pt04.html.
+
 2. Showcase components
 -------------------
 1. eap-bundle - This project provides the core ingredients for creating a bundle to provision instances of JBoss Enterprise Application Platform V6.3.
@@ -94,6 +96,11 @@ D. Use Case - Integration of custom JMX MBeans
 ==============================================
 1. Benefits
 -----------
+It is a very common scenario that your applications have been enhanced with MBeans for management, runtime configuration or even monitoring capabilities. JBoss Operations Network allows you to integrate these MBeans into its management environment, which actually means that you can then leverage JON's full systems management and monitoring capabilities:
+- Historical monitoring of your MBeans
+- Dashboarding and alerting
+- Execution of MBean operations
+
 
 2. Showcase components
 -------------------
