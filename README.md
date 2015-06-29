@@ -52,7 +52,7 @@ C. Use Case - Automated provisioning of resources
 -----------
 This use case describes how to create a standardised JBoss Enterprise Application Platform (EAP) installation package. In terms of JON this is a so called "Bundle". This Bundle can then be provisioned to a target system (or even multiple) in a highly automated fashion.
 
-More information on the provisioning features can be found in the official JON documentation: https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Operations_Network/3.3/html/Users_Guide/pt04.html.
+More information on the provisioning features can be found in the official JON documentation: https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Operations_Network/3.3/html/Users_Guide/part-Deploying_Applications_and_Content.html.
 
 2. Showcase components
 -------------------
@@ -152,6 +152,6 @@ In the end you should see a service group called "Myapp Services" that contains 
 
 Z. Appendix
 ===========
-* JBoss Operations Network Plugin Development Guide - https://access.redhat.com/documentation/en-US/JBoss_Operations_Network/3.1/html/Dev_Writing_Custom_Plug-ins/index.html
+* JBoss Operations Network Plugin Development Guide - https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Operations_Network/3.3/html/Writing_Custom_Plug-ins/index.html
 * RHQ Agent Plugin HowTo - http://rhq-project.github.io/rhq-agent-plugin-plugin/index.html
 * JBoss EAP Quickstarts - https://github.com/jboss-developer/jboss-eap-quickstarts/
